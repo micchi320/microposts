@@ -6,10 +6,9 @@ class User < ActiveRecord::Base
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
     has_secure_password
-<<<<<<< HEAD
-    has_many :microposts
-=======
     validates :area, presence: true, length: { maximum: 50 }
-    validates :age , numericality: { only_integer: true, greater_than_or_equal_to: 0 }
->>>>>>> user-profile
+    validates :age , presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+ 
+
+
 end
