@@ -1,8 +1,19 @@
 class UsersController < ApplicationController
-  before_action :show, only: [:edit, :update, :destroy]
+  before_action :commonLoginAction, only: [:edit,:update]
   
-  def show # 追加
+  def commonLoginAction
+    @user = User.find(params[:id])
+    unless logged_in? && current_user == @user
+    then
+      # ログインユーザーとは異なる
+      flash[:alert] = "エラー"
+      redirect_to root_url
+    end
+  end
+
+  def show
    @user = User.find(params[:id])
+   @microposts = @user.microposts.order(created_at: :desc)
   end
   
   def new
@@ -20,31 +31,14 @@ class UsersController < ApplicationController
   end
   
   def edit
-    if logged_in? && current_user == @user
-  # ログインユーザーとおなじ
-      render 'edit'
-    else
-  # ログインユーザーとは異なる
-      flash[:alert] = "Editing Failed"
-      redirect_to root_path
-    end
+    render 'edit'
   end
   
   def update
-    if @user.update(user_params)
-      flash[:seccess] = "Successfully updated"
-    # 保存に成功した場合はプロフィールへリダイレクト
-      redirect_to @user
-    else
-      flash[:alert] = "Updating Failed"
-      render 'edit'
-    end
+    @user.update(user_params)
+    flash[:seccess] = "Successfully updated"
+    redirect_to @user
   end
-  
-  #def destroy
-  #  @user.destroy
-  #  redirect_to root_path, notice: 'ログアウトしました'
-  #end
   
 
   private
