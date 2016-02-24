@@ -1,15 +1,5 @@
 class UsersController < ApplicationController
   before_action :commonLoginAction, only: [:edit,:update]
-  
-  def commonLoginAction
-    @user = User.find(params[:id])
-    unless logged_in? && current_user == @user
-    then
-      # ログインユーザーとは異なる
-      flash[:alert] = "エラー"
-      redirect_to root_url
-    end
-  end
 
   def show
    @user = User.find(params[:id])
@@ -47,5 +37,14 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :age, :area)
   end
   
+  def commonLoginAction
+    @user = User.find(params[:id])
+    unless logged_in? && current_user == @user
+    then
+      # ログインユーザーとは異なる
+      flash[:alert] = "エラー"
+      redirect_to root_url
+    end
+  end
   
 end
