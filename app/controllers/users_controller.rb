@@ -30,6 +30,12 @@ class UsersController < ApplicationController
     redirect_to @user
   end
   
+  def followings
+  end
+  
+  def followers
+  end
+  
 
   private
 
