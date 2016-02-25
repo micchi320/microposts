@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :commonLoginAction, only: [:edit,:update]
+  before_action :commonLogin, only: [:edit,:update]
 
   def show
    @user = User.find(params[:id])
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :age, :area)
   end
   
-  def commonLoginAction
+  def commonLogin
     @user = User.find(params[:id])
     unless logged_in? && current_user == @user
     then
